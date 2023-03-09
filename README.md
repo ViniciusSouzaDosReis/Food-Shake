@@ -293,7 +293,7 @@ Uma API para delivery de pedidos entregues por skatistas
 |idUsuario| int | sim| id do usuario que fez o pedido
 |localEntrega| object| sim| local a ser entregue o pedido
 |entregue| boolean| não| para saber se o pedido foi entregue
-|alimentos| [string]| sim| lista de alimentos
+|alimentos| [int]| sim| id de cada alimento
 |valor| int| sim| preço do pedido
 |manobras| [object]| sim| lista de manobras a seremm feitas
 |finalizado| boolean| nâo| se o pedido ja foi finalizado
