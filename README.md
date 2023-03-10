@@ -295,7 +295,7 @@ Uma API para delivery de pedidos entregues por skatistas
 |entregue| boolean| não| para saber se o pedido foi entregue
 |alimentos| [int]| sim| id de cada alimento
 |valor| int| sim| preço do pedido
-|manobras| [object]| sim| lista de manobras a seremm feitas
+|manobras| [object]| sim| lista de manobras a serem feitas
 |finalizado| boolean| nâo| se o pedido ja foi finalizado
 
 ```js
