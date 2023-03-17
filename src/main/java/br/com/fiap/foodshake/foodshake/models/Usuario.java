@@ -2,6 +2,9 @@ package br.com.fiap.foodshake.foodshake.models;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class Usuario {
   private long id;
   private String nome;
@@ -12,6 +15,22 @@ public class Usuario {
   private String telefone;
   private String senha;
   private Local localizacao;
+
+  private Usuario(){
+
+  }
+
+  public Usuario(long id, String nome, String sobreNome, LocalDate dataNascimento, String cpf, String email,
+      String telefone, String senha) {
+    this.id = id;
+    this.nome = nome;
+    this.sobreNome = sobreNome;
+    this.dataNascimento = dataNascimento;
+    this.cpf = cpf;
+    this.email = email;
+    this.telefone = telefone;
+    this.senha = senha;
+  }
 
   public Usuario(long id, String nome, String sobreNome, LocalDate dataNascimento, String cpf, String email,
       String telefone, String senha, Local localizacao) {
