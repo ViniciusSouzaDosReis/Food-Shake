@@ -1,11 +1,14 @@
 package br.com.fiap.foodshake.foodshake.models;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.JsonNode;
-
+@Entity
+@Table(name = "Pedido")
 public class Usuario {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String nome;
   private String sobreNome;
@@ -16,7 +19,7 @@ public class Usuario {
   private String senha;
   private Local localizacao;
 
-  private Usuario(){
+  protected Usuario() {
 
   }
 
