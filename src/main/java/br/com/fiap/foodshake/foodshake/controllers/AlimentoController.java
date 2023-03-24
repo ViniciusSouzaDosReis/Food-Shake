@@ -3,12 +3,14 @@ package br.com.fiap.foodshake.foodshake.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.foodshake.foodshake.models.Alimento;
+import br.com.fiap.foodshake.foodshake.repository.AlimentoRepository;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.List;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,75 +19,64 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/api/alimento")
 public class AlimentoController {
-  ArrayList<Alimento> alimentos = new ArrayList<Alimento>();
+
   Logger log = LoggerFactory.getLogger(AlimentoController.class);
 
-  @GetMapping("/api/alimento")
-  public ArrayList<Alimento> show() {
-    if (alimentos.isEmpty()) {
-      alimentos.add(new Alimento(
-          1,
-          new BigDecimal(12.32),
-          "Cachorro Quente",
-          "Cachoror quente Quentinho",
-          "FastFood"));
-    }
-    return alimentos;
+  @Autowired
+  AlimentoRepository repository;
+
+  @GetMapping
+  public List<Alimento> index() {
+    return repository.findAll();
   }
 
-  @GetMapping("/api/alimento/{id}")
+  @GetMapping("{id}")
   public ResponseEntity<Alimento> show(@PathVariable long id) {
-    var alimentoExistente = alimentos
-        .stream()
-        .filter(a -> a.getId() == id)
-        .findFirst();
+    log.info("detalhando alimento: " + id);
+    var alimentoEncontrado = repository.findById(id);
 
-    if (alimentoExistente.isEmpty()) {
+    if (alimentoEncontrado.isEmpty())
       return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(alimentoExistente.get());
+
+    return ResponseEntity.ok(alimentoEncontrado.get());
   }
 
-  @PostMapping("/api/alimento")
+  @PostMapping
   public ResponseEntity<Alimento> create(@RequestBody Alimento alimento) {
-    alimento.setId(alimentos.size() + 1l);
-    log.info("cadastrando alimento: " + alimento);
-    alimentos.add(alimento);
+    log.info("cadastrando alimento " + alimento);
+    repository.save(alimento);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(alimento);
   }
 
-  @DeleteMapping("/api/alimento/{id}")
-  public ResponseEntity<Alimento> delete(@PathVariable long id) {
-    var alimentoExistente = alimentos
-        .stream()
-        .filter(a -> a.getId() == id)
-        .findFirst();
-    if (alimentoExistente.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
+  @DeleteMapping("{id}")
+  public ResponseEntity<Alimento> destroy(@PathVariable long id) {
+    log.info("apagando alimento " + id);
+    var alimentoEncontrado = repository.findById(id);
 
-    alimentos.remove(alimentoExistente.get());
+    if (alimentoEncontrado.isEmpty())
+      return ResponseEntity.notFound().build();
+
+    repository.delete(alimentoEncontrado.get());
+
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping("/api/alimento/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<Alimento> update(@PathVariable long id, @RequestBody Alimento alimento) {
-    var alimentoExistente = alimentos
-        .stream()
-        .filter(a -> a.getId() == id)
-        .findFirst();
+    log.info("atualizando alimento " + id);
+    var alimentoEncontrado = repository.findById(id);
 
-    if (alimentoExistente.isEmpty()) {
+    if (alimentoEncontrado.isEmpty())
       return ResponseEntity.notFound().build();
-    }
 
     alimento.setId(id);
-    alimentos.remove(alimentoExistente.get());
-    alimentos.add(alimento);
+    repository.save(alimento);
 
     return ResponseEntity.ok(alimento);
   }
