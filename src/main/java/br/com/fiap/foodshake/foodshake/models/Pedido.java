@@ -1,8 +1,14 @@
 package br.com.fiap.foodshake.foodshake.models;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "Pedido")
 public class Pedido {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private long idUsuario;
   private Local localEntrega;
@@ -12,7 +18,7 @@ public class Pedido {
   private boolean entregue;
   private boolean finalizado;
 
-  private Pedido() {
+  protected Pedido() {
 
   }
 
