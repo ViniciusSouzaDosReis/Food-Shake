@@ -1,5 +1,10 @@
 package br.com.fiap.foodshake.foodshake.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Local")
 public class Local {
   private String cep;
   private String endereco;
@@ -18,6 +23,10 @@ public class Local {
     this.complemento = complemento;
     this.cidade = cidade;
     this.estado = estado;
+  }
+
+  protected Local(){
+    
   }
 
   public String getCep() {
