@@ -2,11 +2,21 @@ package br.com.fiap.foodshake.foodshake.models;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Alimento")
 public class Alimento {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+
   private BigDecimal valor;
+
   private String nome;
+
   private String descricao;
+
   private String categoria;
 
   public Alimento(long id, BigDecimal valor, String nome, String descricao, String categoria) {
@@ -17,7 +27,7 @@ public class Alimento {
     this.categoria = categoria;
   }
 
-  public Alimento() {
+  protected Alimento() {
   }
 
   public long getId() {
